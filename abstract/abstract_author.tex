@@ -50,7 +50,7 @@ We present ngsPETSc, an interface between the NETGEN mesher \cite{netgen}, the f
 ngsPETSc interface is written in Python and takes advantage of the Python bindings of Netgen/NGSolve and petsc4py \cite{petsc4py}.
 The key components of ngsPETSc are the interface between NETGEN and PETSc DMPlex and the interface between NGSolve and PETSc PC, KSP and SNES.
 
-In particular, thanks to the NETGEN interface to PETSc DMPlex it is possible to export mesh generated from geometries described via constructive solid geometry (CSG) using OpenCASCADE as PETSc DMPlex objects.
+In particular, thanks to the first component it is possible to export mesh generated from geometries described via constructive solid geometry (CSG) using OpenCASCADE as PETSc DMPlex objects.
 Based on this component new features have been added to Firedrake \cite{firedrake}.
 In particular, now Firedrake supports linear and higher-order meshes that conform to the constructive solid geometry.
 Furthermore, ngsPETSc allows the construction of mesh hierarchies for multigrid solvers in two dimensions.
@@ -61,18 +61,19 @@ In particular, the PETSc PC interface also allows to use of the PETSc preconditi
 Lastly, the PETSc SNES interface gives NGSolve users access to the full range of non-linear solvers present in PETSc.
 In particular, PETSc SNES can be used to solve complex non-linear problems and to solve the optimisation problems related to the energy of a particular system.
 
-We will also discuss future applications and developments of ngsPETSc, including and not limited to:
-\begin{enumerate}
-    \item the use of ngsPETSc as a linear algebra backend for NGSolve, to ensure cross-architecture compatibility, GPU support, and performance;
-    \item the support for three-dimensional mesh hierarchies in Firedrake;
-    \item the support for periodic boundary conditions in Firedrake; 
-\end{enumerate}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\textwidth]{../figures/naghdi.jpg}
+    \includegraphics[width=0.75\textwidth]{../figures/naghdi.jpg}
     \caption{Naghdi shell simulation in NGSolve, solved using PETSc SNES via ngsPETSc.}
     \label{fig:ngsPETSc}
 \end{figure}
+We will also discuss future applications and developments of ngsPETSc, including and not limited to:
+\begin{enumerate}
+    \item the use of ngsPETSc as a linear algebra backend for NGSolve, to ensure cross-architecture compatibility, GPU support, and performance;
+    \item the development of a new interface between PETSc TS and NGSolve, to solve time-dependent problems;
+    \item the support for three-dimensional mesh hierarchies in Firedrake;
+    \item the support for periodic meshes in Firedrake; 
+\end{enumerate}
 %%% Put references here
 \begin{thebibliography}{9.}
 \frenchspacing
