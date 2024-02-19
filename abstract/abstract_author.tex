@@ -46,20 +46,15 @@ $^b$ {\em King Abdullah University of Science and Technology, Saudi Arabia}\\
 
 %%% Put the abstract here
 \noindent
-We present ngsPETSc, an interface between the NETGEN mesher \cite{netgen}, the finite element library NGSolve \cite{ngsolve} and the Portable, Extensible Toolkit for Scientific computation (PETSc) \cite{petsc}.
-ngsPETSc interface is written in Python and takes advantage of the Python bindings of Netgen/NGSolve and petsc4py \cite{petsc4py}.
+We present ngsPETSc, an interface between the NETGEN mesher \cite{netgen}, the finite element library NGSolve \cite{ngsolve} and the Portable, Extensible Toolkit for Scientific computation (PETSc) \cite{petsc}. ngsPETSc is written in Python, taking advantage of the Python bindings of Netgen/NGSolve and petsc4py \cite{petsc4py}.
 The key components of ngsPETSc are the interface between NETGEN and PETSc DMPlex and the interface between NGSolve and PETSc PC, KSP and SNES.
 
 In particular, thanks to the first component it is possible to export mesh generated from geometries described via constructive solid geometry (CSG) using OpenCASCADE as PETSc DMPlex objects.
-Based on this component new features have been added to Firedrake \cite{firedrake}.
-In particular, now Firedrake supports linear and higher-order meshes that conform to the constructive solid geometry.
-Furthermore, ngsPETSc allows the construction of mesh hierarchies for multigrid solvers in two dimensions.
-Lastly, different mesh splits such as Alfeld and Powell-Sabin splits are supported in Firedrake.
+For example, this allows Firedrake \cite{firedrake} to employ meshes described via CSG, to use higher-order meshes that conform to the geometry, and to build mesh hierarchies for geometric multigrid solvers that better approximate the domain with refinement.
+This also enables the use of different mesh splits, like Alfeld and Powell--Sabin splits, which facilitate the development of conforming exactly divergence-free element pairs for incompressible flow.
 
-The PETSc PC and KSP interface allows the use of PETSc solvers in NGSolve.
-In particular, the PETSc PC interface also allows to use of the PETSc preconditioners directly in the linear algebra solvers implemented in NGSolve.
-Lastly, the PETSc SNES interface gives NGSolve users access to the full range of non-linear solvers present in PETSc.
-In particular, PETSc SNES can be used to solve complex non-linear problems and to solve the optimisation problems related to the energy of a particular system.
+Conversely, the PETSc PC, KSP, and SNES interfaces allows the use of PETSc solvers in NGSolve, giving access to a much broader range of linear and nonlinear solvers.
+For example, SNES's line search features can make the solution of complex non-linear problems, like the Naghdi shell model shown in Figure \ref{fig:ngsPETSc}, much more robust.
 
 \begin{figure}[h]
     \centering
@@ -67,17 +62,17 @@ In particular, PETSc SNES can be used to solve complex non-linear problems and t
     \caption{Naghdi shell simulation in NGSolve, solved using PETSc SNES via ngsPETSc.}
     \label{fig:ngsPETSc}
 \end{figure}
-We will also discuss future applications and developments of ngsPETSc, including and not limited to:
+Future work includes:
 \begin{enumerate}
     \item the use of ngsPETSc as a linear algebra backend for NGSolve, to ensure cross-architecture compatibility, GPU support, and performance;
     \item the development of a new interface between PETSc TS and NGSolve, to solve time-dependent problems;
     \item the support for three-dimensional mesh hierarchies in Firedrake;
-    \item the support for periodic meshes in Firedrake; 
+    \item the support for periodic meshes in Firedrake.
 \end{enumerate}
 %%% Put references here
 \begin{thebibliography}{9.}
 \frenchspacing
-\bibitem{netgen}Schöberl, J., 1997. NETGEN An advancing front 2D/3D-mesh generator based on abstract rules. Computing and visualization in science, 1(1), pp.41-52.
+\bibitem{netgen}Schöberl, J., 1997. NETGEN: An advancing front 2D/3D-mesh generator based on abstract rules. Computing and visualization in science, 1(1), pp.41-52.
 \bibitem{ngsolve}Schöberl, J., 2014. C++ 11 implementation of finite elements in NGSolve. Institute for analysis and scientific computing, Vienna University of Technology, 30.
 \bibitem{petsc}Balay, S., Abhyankar, S., Adams, M.F., Benson, S., Brown, J., Brune, P., Buschelman, K., Constantinescu, E.M., Dalcin, L., Dener, A. and Eijkhout, V., 2023. PETSc/TAO Users Manual Revision 3.19 (No. ANL-21/39). Argonne National Lab.(ANL), Argonne, IL (United States).
 \bibitem{petsc4py}Dalcin, L.D., Paz, R.R., Kler, P.A. and Cosimo, A., 2011. Parallel distributed computing using Python. Advances in Water Resources, 34(9), pp.1124-1139.
