@@ -243,7 +243,6 @@
 		\begin{minipage}{0.3\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[scale=0.2]{Figures/Github.png}
 			\end{figure}
 		\end{minipage}
 	\end{frame}
@@ -288,10 +287,10 @@
 	\end{frame}
 	\section{\textbf{PETSc KSP}}
 	\begin{frame}[plain]
-		\frametitle{An NGsolve Example}
+		\frametitle{An NGsolve Example -- Poisson}
 		\ngshead
 		$\newline$
-		\lstinputlisting[language=Python, firstline=12, lastline=26]{../examples/ngs/ksp_poisson.py.rst}
+		\lstinputlisting[language=Python, firstline=12, lastline=26]{../examples/ngs/poisson.py.rst}
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{PETSc KSP -- Direct solve with MUMPS }
@@ -301,7 +300,7 @@
 		\color{oxfordblue}$\blacktriangleright$ We can perform a direct solve using MUMPS.
 		\begin{columns}[T]
 			\begin{column}{0.7\textwidth}
-				\lstinputlisting[language=Python, firstline=37, lastline=45]{../examples/ngs/ksp_poisson.py.rst}
+				\lstinputlisting[language=Python, firstline=37, lastline=45]{../examples/ngs/poisson.py.rst}
 			\end{column}
 			\begin{column}{0.3\textwidth}
 				\begin{figure}
@@ -321,21 +320,108 @@
 		\begin{equation}
 			x^{(k+1)} = D^{-1}(b - (A - D)x^{(k)}).
 		\end{equation}
-		\lstinputlisting[language=Python, firstline=52, lastline=58]{../examples/ngs/ksp_poisson.py.rst}
+		\lstinputlisting[language=Python, firstline=52, lastline=58]{../examples/ngs/poisson.py.rst}
 		$\newline$
 		\color{oxfordblue}$\blacktriangleright$ Analogously we can implement the Gauss-Seidel method. 
 	\end{frame}
 	\begin{frame}[plain]
-		\frametitle{PETSc KSP -- Geometric Algebraic MultiGrid (GAMG)}
+		\frametitle{PETSc KSP -- Galerkin Algebraic MultiGrid (GAMG)}
 		\ngshead
 		$\newline$
 		$\newline$
 		$\newline$
 		\color{oxfordblue}$\blacktriangleright$ Inside of a classical iterative method such as conjugate gradient, we can play with different preconditioners such as PETSc GAMG.
 		$\newline$
-		\lstinputlisting[language=Python, firstline=61, lastline=64]{../examples/ngs/ksp_poisson.py.rst}
+		\lstinputlisting[language=Python, firstline=61, lastline=64]{../examples/ngs/poisson.py.rst}
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ As we will see in a moment we have a wide variety of preconditioners available, such as: \textbf{Hypre (GAMG)}, \textbf{BDDC}, \textbf{...} 
+		\color{oxfordblue}$\blacktriangleright$ As we will see in a moment we have a wide variety of preconditioners available, such as: \textbf{Hypre (AMG)}, \textbf{BDDC}, \textbf{...} 
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{An NGsolve Example -- Linear Elasticity}
+		\ngshead
+		$\newline$
+		\lstinputlisting[language=Python, firstline=22, lastline=36]{../examples/ngs/elasticity.py.rst}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc KSP -- Near Nullspace }
+		$\newline$
+		\ngshead
+		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ We can pass a near nullspace to a \textbf{KrylovSolver}, informing the solver that there is a near nullspace.
+		\begin{columns}[T]
+			\begin{column}{0.7\textwidth}
+				\lstinputlisting[language=Python, firstline=41, lastline=49]{../examples/ngs/elasticity.py.rst}
+			\end{column}
+			\begin{column}{0.3\textwidth}
+				\begin{figure}
+					\centering
+					\includegraphics[scale=0.3]{../figures/nullspace.png}
+					\caption*{\tiny{Solution of lienar elasticity fixing SO(3) to  be in the near nullspace.}}
+				\end{figure}
+			\end{column}
+		\end{columns}
+		\lstinputlisting[language=Python, firstline=50, lastline=51]{../examples/ngs/elasticity.py.rst}
+	\end{frame}
+	\section{\textbf{PETSc PC}}
+	\begin{frame}[plain]
+		\frametitle{PETSc PC -- Hypre}
+		$\newline$
+		\ngshead
+		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ We can use PETSc preconditioner as normal preconditioners in NGSolve, for example we can wrap a PETSc PC of type Hypre in NGSolve and use it inside NGSolve Krylov solvers.
+		\lstinputlisting[language=Python, firstline=33, lastline=38]{../examples/ngs/precond.py.rst}
+		\only<1>{
+		\begin{center}
+			\begin{tabular}{ |c||c|c|c|} 
+			\hline
+			Degrees of Freedom (p=1) &  7329 & 1837569 \\ 
+			PETSc PC (HYPRE) & 22 (5.19e-13) & 31 (6.82e-13) \\ 
+			NGSolve Geometric MultiGrid & 14 (4.08e-13) & 16 (1.30e-12)\\
+			\hline
+			\end{tabular}
+		\end{center}
+		}
+		\only<2->{
+		\begin{center}
+			\begin{tabular}{ |c||c|c|c|} 
+			\hline
+			Degrees of Freedom (p=3) &  64993 & 259009  \\ 
+			PETSc PC (HYPRE) & 40 (6.48e-13) & 69 (2.53e-13) \\ 
+			NGSolve Geometric MultiGrid & 19 (8.89e-13) & 19 (7.78e-13)\\
+			\hline
+			\end{tabular}
+		\end{center}
+		}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc PC -- Vertex Patch}
+		$\newline$
+		\ngshead
+		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it as a two-level additive Schwarz preconditioner.
+		In this case, we will use as fine space correction, the inverse of the local matrices associated with the patch of a vertex, i.e.
+		\begin{equation}
+			\mathcal{P} = I_{mg}A_{mg}^{-1}I_{mg}^{T} + \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
+		\end{equation}
+		\vspace{-0.5cm}
+		\lstinputlisting[language=Python, firstline=54, lastline=58]{../examples/ngs/precond.py.rst}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc PC -- BDDC}
+		$\newline$
+		\ngshead
+		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it as a two-level additive Schwarz preconditioner.
+		In this case, we will use as fine space correction, the inverse of the local matrices associated with the patch of a vertex, i.e.
+		\begin{equation}
+			\mathcal{P} = I_{mg}A_{mg}^{-1}I_{mg}^{T} + \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
+		\end{equation}
+		\vspace{-0.5cm}
+		\lstinputlisting[language=Python, firstline=54, lastline=58]{../examples/ngs/precond.py.rst}
 	\end{frame}
 	%\begin{frame}[plain]
 	%	\firedrakehead
