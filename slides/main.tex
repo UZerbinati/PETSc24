@@ -286,6 +286,7 @@
 			\item[\color{oxfordblue}$\blacktriangleright$] Access to all mesh refinement capabilities of \textbf{DMPLEX}.
 		\end{itemize}
 	\end{frame}
+	\section{\textbf{PETSc KSP}}
 	\begin{frame}[plain]
 		\frametitle{An NGsolve Example}
 		\ngshead
@@ -293,21 +294,48 @@
 		\lstinputlisting[language=Python, firstline=12, lastline=26]{../examples/ngs/ksp_poisson.py.rst}
 	\end{frame}
 	\begin{frame}[plain]
-		\frametitle{PETSc KSP -- MUMPS}
+		\frametitle{PETSc KSP -- Direct solve with MUMPS }
 		\ngshead
 		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ We can perform a direct solve using MUMPS.
 		\begin{columns}[T]
 			\begin{column}{0.7\textwidth}
-				\lstinputlisting[language=Python, firstline=37, lastline=42]{../examples/ngs/ksp_poisson.py.rst}
+				\lstinputlisting[language=Python, firstline=37, lastline=45]{../examples/ngs/ksp_poisson.py.rst}
 			\end{column}
 			\begin{column}{0.3\textwidth}
 				\begin{figure}
 					\centering
 					\includegraphics[scale=0.3]{../figures/mumps.png}
+					\caption*{\tiny{Solution of Poisson problem computed with MUMPS}}
 				\end{figure}
-				
 			\end{column}
 		\end{columns}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc KSP -- Iterative Jacobi method}
+		\ngshead
+		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ We can use a wide variety of iterative solvers, for example, the Jacobi method, i.e.
+		\begin{equation}
+			x^{(k+1)} = D^{-1}(b - (A - D)x^{(k)}).
+		\end{equation}
+		\lstinputlisting[language=Python, firstline=52, lastline=58]{../examples/ngs/ksp_poisson.py.rst}
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ Analogously we can implement the Gauss-Seidel method. 
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc KSP -- Geometric Algebraic MultiGrid (GAMG)}
+		\ngshead
+		$\newline$
+		$\newline$
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ Inside of a classical iterative method such as conjugate gradient, we can play with different preconditioners such as PETSc GAMG.
+		$\newline$
+		\lstinputlisting[language=Python, firstline=61, lastline=64]{../examples/ngs/ksp_poisson.py.rst}
+		$\newline$
+		\color{oxfordblue}$\blacktriangleright$ As we will see in a moment we have a wide variety of preconditioners available, such as: \textbf{Hypre (GAMG)}, \textbf{BDDC}, \textbf{...} 
 	\end{frame}
 	%\begin{frame}[plain]
 	%	\firedrakehead
