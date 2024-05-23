@@ -52,7 +52,7 @@ In this case, we will use as fine space correction, the inverse of the local mat
     return blocks
 
    blocks = VertexPatchBlocks(mesh, fes)
-   blocksmooth = a.mat.CreateBlockSmoother(blocks)
+   blockjac = a.mat.CreateBlockSmoother(blocks)
    gfu.vec.data = CG(a.mat, rhs=f.vec, pre=blockjac, printrates=True)
    Draw(gfu)
 
