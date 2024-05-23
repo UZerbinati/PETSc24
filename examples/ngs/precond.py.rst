@@ -20,7 +20,7 @@ Such a discretisation can easily be constructed using NGSolve as follows: ::
       mesh = Mesh(ngm.Mesh.Receive(COMM_WORLD))
    for _ in range(2):
       mesh.Refine()
-   fes = H1(mesh, order=2, dirichlet="left|right|top|bottom")
+   fes = H1(mesh, order=3, dirichlet="left|right|top|bottom")
    u,v = fes.TnT()
    a = BilinearForm(grad(u)*grad(v)*dx)
    f = LinearForm(fes)
@@ -37,7 +37,7 @@ We now consturct an NGSolve preconditioner wrapping a `PETSc PC`, in particular 
    gfu.vec.data = CG(a.mat, rhs=f.vec, pre=pre.mat, printrates=True)
    Draw(gfu)
 
-We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it a two-level additive Schwarz preconditioner.
+We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can construct an additive Schwarz preconditioner.
 In this case, we will use as fine space correction, the inverse of the local matrices associated with the patch of a vertex. ::
 
    def VertexPatchBlocks(mesh, fes):
@@ -52,11 +52,26 @@ In this case, we will use as fine space correction, the inverse of the local mat
     return blocks
 
    blocks = VertexPatchBlocks(mesh, fes)
-   blockjac = a.mat.CreateBlockSmoother(blocks)
-
-   mgpre = pre.mat + blockjac
-   gfu.vec.data = CG(a.mat, rhs=f.vec, pre=mgpre, printrates=True)
+   blocksmooth = a.mat.CreateBlockSmoother(blocks)
+   gfu.vec.data = CG(a.mat, rhs=f.vec, pre=blockjac, printrates=True)
    Draw(gfu)
+
+We now isolate the degrees of freedom associated with the vertices and construct a two-level additive Schwarz preconditioner, where the coarse space correction is the inverse of the local matrices associated with the vertices. ::
+
+   def VertexDofs(mesh, fes):
+      vertexdofs = BitArray(fes.ndof)
+      vertexdofs[:] = False
+      for v in mesh.vertices:
+         for d in fes.GetDofNrs(v):
+            vertexdofs[d] = True
+      vertexdofs &= fes.FreeDofs()
+      return vertexdofs
+
+   vertexdofs = VertexDofs(mesh, fes)
+   preCoarse = Preconditioner(a, "PETScPC", pc_type="hypre", restrictedTo=vertexdofs)
+   pretwo = preCoarse.mat + blockjac
+   gfu.vec.data = CG(a.mat, rhs=f.vec, pre=pretwo, printrates=True)
+
 
 We can also use the PETSc preconditioner as an auxiliary space preconditioner.
 Let us consdier the disctinuous Galerkin discretisation of the Poisson problem. ::

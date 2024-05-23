@@ -398,17 +398,31 @@
 		$\color{oxfordblue}\blacktriangleright$ We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it as a two-level additive Schwarz preconditioner.
 		In this case, we will use as fine space correction, the inverse of the local matrices associated with the patch of a vertex, i.e.
 		\begin{equation}
-			\mathcal{P} = I_{mg}A_{mg}^{-1}I_{mg}^{T} + \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
+			\mathcal{P} = \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
 		\end{equation}
 		\vspace{-0.5cm}
 		\lstinputlisting[language=Python, firstline=54, lastline=58]{../examples/ngs/precond.py.rst}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc PC -- Two level additive Schwarz} 
+		$\newline$
+		\ngshead
+		$\newline$
+		$\newline$
+		$\color{oxfordblue}\blacktriangleright$ We can also use the PETSc PC inside a two-level additive Schwarz preconditioner.
+		In particular, we will use a PETSc PC of type HYPRE to do a coarse grid correction on the vertex degree of freedom. 
+		\begin{equation}
+			\mathcal{P} = I_{H}A_{H}^{-1}I_{H}^{T} + \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
+		\end{equation}
+		\vspace{-0.5cm}
+		\lstinputlisting[language=Python, firstline=70, lastline=73]{../examples/ngs/precond.py.rst}
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{An NGsolve Example -- Discontinuous Galerkin}
 		$\newline$
 		$\newline$
 		\ngshead
-		\lstinputlisting[language=Python, firstline=64, lastline=82]{../examples/ngs/precond.py.rst}
+		\lstinputlisting[language=Python, firstline=79, lastline=98]{../examples/ngs/precond.py.rst}
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{PETSc PC -- Auxiliary Space Preconditioner}
@@ -420,7 +434,7 @@
 		We can now use the PETSc PC assembled for the conforming Poisson problem as an auxiliary space preconditioner for the DG discretisation.
 		In particular, we will use as smoother a PETSc PC of type SOR.
 		$\newline$
-		\lstinputlisting[language=Python, firstline=86, lastline=93]{../examples/ngs/precond.py.rst}
+		\lstinputlisting[language=Python, firstline=101, lastline=106]{../examples/ngs/precond.py.rst}
 	\end{frame}
 	\section{\textbf{Saddle Point Problems}}
 	\begin{frame}[plain]
@@ -645,7 +659,14 @@
 	%\end{frame}
 	\section{\textbf{Conclusions}}
 	\begin{frame}{NGSolve User Meeting}
+		$\newline$
+		$\newline$
 		$\color{oxfordblue}\blacktriangleright$ Come to the 5th NGSolve User Meeting that will be held between the \textbf{17th of June} and the \textbf{19th of June} at \textbf{TU Wien}.
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.5]{../figures/joachim.png}
+		\end{figure}
+		\vspace{-0.6cm}
 		\begin{center}
 			\textbf{Usally there are beers !}
 		\end{center}
