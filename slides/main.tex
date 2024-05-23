@@ -231,20 +231,14 @@
 		\titlepage
 	\end{frame}
 	\begin{frame}{Overview}
+		$\newline$
 		\begin{itemize}
-			\item[\color{oxfordblue}$\blacktriangleright$]
-			%\item[\color{oxfordblue}$\blacktriangleright$] Reynolds robust geometric multigrid on curved meshes.
-			%\item[\color{oxfordblue}$\blacktriangleright$] Easy implementation:
+			\item[\color{oxfordblue}$\blacktriangleright$] We will see how to use \textbf{PETSc KSP} to solve linear systems in \textbf{NGSolve}. We will also how to impose a near nullspace.
+			\item[\color{oxfordblue}$\blacktriangleright$] We will see how to use \textbf{PETSc PC} as a preconditioners building block inside \textbf{NGSolve}. In particular, we will see how to use Hypre in a vertex patch preconditioner and as an auxiliary space preconditioner.
+			\item[\color{oxfordblue}$\blacktriangleright$] We will see how to use \textbf{PETSc SNES} to solve non-linear problems in \textbf{NGSolve}. In particular, we will see how to solve the Naghdi shell problem.
 		\end{itemize}
-		\begin{minipage}{0.58\textwidth}
-			All codes are available on Github:
-			\texttt{https://github.com/UZerbinati/DD28}
-		\end{minipage}
-		\begin{minipage}{0.3\textwidth}
-			\begin{figure}
-				\centering
-			\end{figure}
-		\end{minipage}
+		All codes are available on Github:
+		\texttt{https://github.com/UZerbinati/PETSc24}
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{Netgen/NGSolve}
@@ -297,7 +291,7 @@
 		\ngshead
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ We can perform a direct solve using MUMPS.
+		$\color{oxfordblue}\blacktriangleright$ We can perform a direct solve using MUMPS.
 		\begin{columns}[T]
 			\begin{column}{0.7\textwidth}
 				\lstinputlisting[language=Python, firstline=37, lastline=45]{../examples/ngs/poisson.py.rst}
@@ -316,13 +310,13 @@
 		\ngshead
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ We can use a wide variety of iterative solvers, for example, the Jacobi method, i.e.
+		$\color{oxfordblue}\blacktriangleright$ We can use a wide variety of iterative solvers, for example, the Jacobi method, i.e.
 		\begin{equation}
 			x^{(k+1)} = D^{-1}(b - (A - D)x^{(k)}).
 		\end{equation}
 		\lstinputlisting[language=Python, firstline=52, lastline=58]{../examples/ngs/poisson.py.rst}
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ Analogously we can implement the Gauss-Seidel method. 
+		$\color{oxfordblue}\blacktriangleright$ Analogously we can implement the Gauss-Seidel method. 
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{PETSc KSP -- Galerkin Algebraic MultiGrid (GAMG)}
@@ -330,11 +324,11 @@
 		$\newline$
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ Inside of a classical iterative method such as conjugate gradient, we can play with different preconditioners such as PETSc GAMG.
+		$\color{oxfordblue}\blacktriangleright$ Inside of a classical iterative method such as conjugate gradient, we can play with different preconditioners such as PETSc GAMG.
 		$\newline$
 		\lstinputlisting[language=Python, firstline=61, lastline=64]{../examples/ngs/poisson.py.rst}
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ As we will see in a moment we have a wide variety of preconditioners available, such as: \textbf{Hypre (AMG)}, \textbf{BDDC}, \textbf{...} 
+		$\color{oxfordblue}\blacktriangleright$ As we will see in a moment we have a wide variety of preconditioners available, such as: \textbf{Hypre (AMG)}, \textbf{BDDC}, \textbf{...} 
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{An NGsolve Example -- Linear Elasticity}
@@ -348,7 +342,7 @@
 		\ngshead
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ We can pass a near nullspace to a \textbf{KrylovSolver}, informing the solver that there is a near nullspace.
+		$\color{oxfordblue}\blacktriangleright$ We can pass a near nullspace to a \textbf{KrylovSolver}, informing the solver that there is a near nullspace.
 		\begin{columns}[T]
 			\begin{column}{0.7\textwidth}
 				\lstinputlisting[language=Python, firstline=41, lastline=49]{../examples/ngs/elasticity.py.rst}
@@ -370,7 +364,7 @@
 		\ngshead
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ We can use PETSc preconditioner as normal preconditioners in NGSolve, for example we can wrap a PETSc PC of type Hypre in NGSolve and use it inside NGSolve Krylov solvers.
+		$\color{oxfordblue}\blacktriangleright$ We can use PETSc preconditioners as normal preconditioners in NGSolve, for example we can wrap a PETSc PC of type Hypre in NGSolve and use it inside NGSolve Krylov solvers.
 		\lstinputlisting[language=Python, firstline=33, lastline=38]{../examples/ngs/precond.py.rst}
 		\only<1>{
 		\begin{center}
@@ -401,7 +395,7 @@
 		\ngshead
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it as a two-level additive Schwarz preconditioner.
+		$\color{oxfordblue}\blacktriangleright$ We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it as a two-level additive Schwarz preconditioner.
 		In this case, we will use as fine space correction, the inverse of the local matrices associated with the patch of a vertex, i.e.
 		\begin{equation}
 			\mathcal{P} = I_{mg}A_{mg}^{-1}I_{mg}^{T} + \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
@@ -410,18 +404,251 @@
 		\lstinputlisting[language=Python, firstline=54, lastline=58]{../examples/ngs/precond.py.rst}
 	\end{frame}
 	\begin{frame}[plain]
-		\frametitle{PETSc PC -- BDDC}
+		\frametitle{An NGsolve Example -- Discontinuous Galerkin}
+		$\newline$
+		$\newline$
+		\ngshead
+		\lstinputlisting[language=Python, firstline=64, lastline=82]{../examples/ngs/precond.py.rst}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc PC -- Auxiliary Space Preconditioner}
 		$\newline$
 		\ngshead
 		$\newline$
 		$\newline$
-		\color{oxfordblue}$\blacktriangleright$ We can use PETSc preconditioner as one of the building blocks of a more complex preconditioner. For example, we can use it as a two-level additive Schwarz preconditioner.
-		In this case, we will use as fine space correction, the inverse of the local matrices associated with the patch of a vertex, i.e.
+		$\color{oxfordblue}\blacktriangleright$ 
+		We can now use the PETSc PC assembled for the conforming Poisson problem as an auxiliary space preconditioner for the DG discretisation.
+		In particular, we will use as smoother a PETSc PC of type SOR.
+		$\newline$
+		\lstinputlisting[language=Python, firstline=86, lastline=93]{../examples/ngs/precond.py.rst}
+	\end{frame}
+	\section{\textbf{Saddle Point Problems}}
+	\begin{frame}[plain]
+		\frametitle{An NGsolve Example -- Stokes flow}
+		$\newline$
+		$\newline$
+		\ngshead
+		$\newline$
+		\lstinputlisting[language=Python, firstline=30, lastline=39]{../examples/ngs/saddle.py.rst}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.4]{../figures/channel.png}
+		\end{figure}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Fieldsplit Schur preconditioner -- Mass matrix}
+		$\newline$
+		$\newline$
+		It is well known that a field split preconditioner can be used to solve saddle point problems, i.e.
 		\begin{equation}
-			\mathcal{P} = I_{mg}A_{mg}^{-1}I_{mg}^{T} + \sum_{i=1}^{n} I_i A_i^{-1}I_i^{T}.
+			\begin{bmatrix}
+				\hat{A}^{-1}& 0\\
+				0 & -B\hat{A}^{-1}B^T
+			\end{bmatrix}
 		\end{equation}
-		\vspace{-0.5cm}
-		\lstinputlisting[language=Python, firstline=54, lastline=58]{../examples/ngs/precond.py.rst}
+		Thanks to the inf-sup condition we can prove that the Schur complement is spectrally equivalent to the mass matrix, hence we can use as preconditioner:
+		\vspace{-0.2cm}
+		\begin{equation}
+			\begin{bmatrix}
+				\hat{A}^{-1}& 0\\
+				0 & -\nu \hat{M}^{-1}
+			\end{bmatrix}
+		\end{equation}
+		where $M$ is the mass matrix.
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc PC -- NGSolve Fieldsplit}
+		$\newline$
+		$\newline$
+		\ngshead
+		$\newline$
+		\lstinputlisting[language=Python, firstline=43, lastline=53]{../examples/ngs/saddle.py.rst}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.4]{../figures/stokes.png}
+		\end{figure}
+	\end{frame}
+	\section{\textbf{PETSc SNES}}
+	\begin{frame}[plain]
+		\frametitle{An NGsolve Example -- Naghdi Shell}
+		$\newline$
+		$\newline$
+		\ngshead
+		$\newline$
+		\begin{columns}[T]
+			\begin{column}{0.7\textwidth}
+				\lstinputlisting[language=Python, firstline=9, lastline=21]{../examples/ngs/legacy/naghdi.py}
+			\end{column}
+			\begin{column}{0.25\textwidth}
+				\begin{figure}
+					\centering
+					\includegraphics[scale=0.3]{../figures/shell.png}
+					\caption*{\tiny{Naghdi shell undeformed geometry.}}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{An NGsolve Example -- Naghdi Shell}
+		$\newline$
+		$\newline$
+		\ngshead
+		\lstinputlisting[language=Python, firstline=27, lastline=43]{../examples/ngs/legacy/naghdi.py}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{PETSc SNES}
+		\ngshead
+		$\newline$
+		$\newline$
+		$\newline$
+		$\color{oxfordblue}\blacktriangleright$ We can use PETSc SNES to solve the non-linear Naghdi shell problem.
+		$\newline$
+		\begin{columns}[T]
+			\begin{column}{0.7\textwidth}
+				\lstinputlisting[language=Python, firstline=49, lastline=56]{../examples/ngs/legacy/naghdi.py}
+			\end{column}
+			\begin{column}{0.3\textwidth}
+				\vspace{-0.8cm}
+				\begin{figure}
+					\centering
+					\includegraphics[scale=0.3]{../figures/naghdi.png}
+					\caption*{\tiny{Solution of Naghdi shell problem.}}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	%\begin{frame}{Navier-Stokes flow}
+	%	A more interesting example is the Navier-Stokes flow, which is a non-linear problem.
+	%	In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2(\Omega)$ such that
+	%	\begin{align*}
+	%		\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\vec{u}\cdot \nabla) \vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
+	%		-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
+	%	\end{align*}
+	%	for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2(\Omega)$.
+	%\end{frame}
+	%\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
+	%	$\newline$
+	%	We consider an augmented Lagrangian formulation for the discrete problem, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that
+	%	\begin{align*}
+	%		(\partial_t\vec{u},\vec{v})_0 + (\vec{u}\cdot \nabla \vec{u},\vec{v})_0 &+ \nu(\nabla \vec{u},\nabla \vec{v})_0 \\
+	%		 & - (p,\nabla \cdot \vec{v})_0 + \gamma(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
+	%	\end{align*}
+	%	and verifying the weak divergence free constraint $(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
+	%\end{frame}
+	%\begin{frame}
+	%	\frametitle{Navier-Stokes flow -- Fieldsplit Schour preconditioner}
+	%	$\newline$
+	%	$\newline$
+	%	The linearized version of the Navier-Stokes equations can be written in matrix form as 
+	%	\vspace{-0.1cm}
+	%	\begin{equation}
+	%		\begin{bmatrix}
+	%			A+\gamma B^TWB& B^T \\
+	%			B & 0
+	%		\end{bmatrix}
+	%		\begin{bmatrix}\vec{u} \\p\end{bmatrix}=\begin{bmatrix}\vec{f} \\0\end{bmatrix}
+	%	\end{equation}
+	%	We choose as preconditioner the \textbf{fieldsplit Schur preconditioner}, i.e.
+	%	\vspace{-0.1cm}
+	%	\begin{equation}
+	%		\begin{bmatrix}
+	%			I & -\hat{A}_\gamma^{-1} B^T\\
+	%			0 & I
+	%		\end{bmatrix}
+	%		\begin{bmatrix}
+	%			\hat{A}_\gamma^{-1}& 0\\
+	%			0 & \hat{S}_\gamma^{-1}
+	%		\end{bmatrix}
+	%		\begin{bmatrix}
+	%			I & 0\\
+	%			-BA_\gamma^{-1} & I
+	%		\end{bmatrix}
+	%	\end{equation}
+	%	\begin{equation}
+	%		A_\gamma = A+\gamma B^TWB 	\qquad  S_\gamma = -BA_\gamma^{-1}B^T.
+	%	\end{equation}
+	%\end{frame}
+	%\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
+	%	$\newline$
+	%	\begin{itemize}
+	%		\item [\color{oxfordblue}$\blacktriangleright$] The augmented Lagrangian term helps enforce the divergence-free constraint, and makes the scheme pressure robust.
+	%		\item [\color{oxfordblue}$\blacktriangleright$] We can use as preconditioner
+	%		\begin{equation}
+	%			\begin{bmatrix}
+	%				\hat{A}_\gamma^{-1}& 0\\
+	%				0 & -(\nu+\gamma)M^{-1}
+	%			\end{bmatrix}
+	%		\end{equation}
+	%		\item[\color{oxfordblue}$\blacktriangleright$] How do we compute $\hat{A}_\gamma^{-1}$ efficiently ? Can we adopt a multigrid approach ?
+	%	\end{itemize}
+	%\end{frame}
+	%\begin{frame}
+	%	\frametitle{Subspace correction methods for nearly singular problems}
+	%	$\newline$
+	%	$\newline$
+	%	To compute $\hat{A}_\gamma^{-1}$ we can use a subspace correction method.
+	%	We decompose the space $V_h$ as follows:
+	%	\vspace{-0.3cm}
+	%	\begin{equation}
+	%		V_h = \sum_{i=1} V_i.
+	%	\end{equation}
+	%	We consider a coarse space $V_H$ and the projection and injection operators:
+	%	\vspace{-0.3cm}
+	%	\begin{equation}
+	%		P_H : V_H \rightarrow V_h, \qquad I : V_h \rightarrow V_i.
+	%	\end{equation}
+	%	We then consider as smoother the two--level additive Schwarz preconditioner defined as:
+	%	\begin{equation}
+	%		\hat{A}_\gamma^{-1} = P_H A_{\gamma,H}^{-1} P_H^T + \sum_{i=1} I_i A_{\gamma,i}^{-1} I_i^T.
+	%	\end{equation}
+	%\end{frame}
+	%\begin{frame}
+	%	\frametitle{Subspace correction methods for nearly singular problems}
+	%	$\newline$
+	%	\begin{block}{Robust relaxetion}
+	%		We need the discrete kernel,
+	%		\vspace{-0.3cm}
+	%		\begin{equation}
+	%			\mathbb{K}_h =  \{\vec{v} \in V_h : B\vec{v} = 0\},
+	%		\end{equation}
+	%		to decompose in a \textbf{stable} way as follows:
+	%		\vspace{-0.3cm}
+	%		\begin{equation}
+	%			\mathbb{K}_h = \sum_{i=1} \mathbb{K}_h\cap V_i.
+	%		\end{equation}
+	%	\end{block}
+	%\end{frame}
+	%\begin{frame}[fragile]
+	%	\frametitle{Robust relaxation via FEEC -- Hood--Taylor}
+	%	\begin{equation*}
+	%		\begin{tikzcd}[row sep=huge]
+	%		0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2(\Omega) \arrow[r,""]\arrow[d] & 0\\
+	%		0 \arrow[r,""] & \Big[\mathbb{P}^5(\mathcal{T}_h)\Big]^2 \arrow[r,"\curl"] & \Big[\mathbb{P}^4(\mathcal{T}_h)\Big]^2 \arrow[r,"\div"] & \mathbb{P}^3_{disc}(\mathcal{T}_h) \arrow[r,""] & 0\\
+	%		\end{tikzcd}
+	%	\end{equation*}
+	%	\vspace{-2cm}
+	%\end{frame}
+	%\begin{frame}
+	%	\frametitle{Robust prolongation -- Hood--Taylor}
+	%	$\newline$
+	%	\begin{block}{Robust prolongation}
+	%		If the space pair $(V_h,Q_h)$ is inf-sup stable and the meshes are nested, we have a robust prolongation operator defined by:
+	%		\begin{equation}
+	%			\tilde P_H \vec{u}_H - \tilde{\vec{u}}_h = \vec{u}_H-\tilde{\vec{u}}_h,
+	%		\end{equation}
+	%		where
+	%		\begin{equation}
+	%			a_{\gamma}(\tilde{\vec{u}}_h,\tilde{\vec{v}}_h) = \gamma(\nabla \cdot \tilde{\vec{u}}_h,\nabla \cdot \tilde{\vec{v}}_h)_{\pi_{Q_h}\pi{Q_h}^T} \quad \forall \tilde{\vec{v}}_h \in \tilde{V}_h,
+	%		\end{equation}
+	%		where $\pi_{Q_h}$ is the $L^2$ projection onto $Q_h$ and $\tilde{V}_h$ is the space of discrete velocity vanishing at the boundary of the coarse cells.
+	%	\end{block}
+	%\end{frame}
+	\section{\textbf{Conclusions}}
+	\begin{frame}{NGSolve User Meeting}
+		$\color{oxfordblue}\blacktriangleright$ Come to the 5th NGSolve User Meeting that will be held between the \textbf{17th of June} and the \textbf{19th of June} at \textbf{TU Wien}.
+		\begin{center}
+			\textbf{Usally there are beers !}
+		\end{center}
 	\end{frame}
 	%\begin{frame}[plain]
 	%	\firedrakehead

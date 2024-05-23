@@ -26,7 +26,7 @@ Such a discretisation can easily be constructed using NGSolve as follows: ::
    def Stress(strain):
       return 2*mu*strain + lam*Trace(strain)*Id(2)
 
-   fes = VectorH1(mesh, order=1)
+   fes = VectorH1(mesh, order=1, dirichlet="left")
    u,v = fes.TnT()
 
    a = BilinearForm(InnerProduct(Stress(Sym(Grad(u))), Sym(Grad(v)))*dx)

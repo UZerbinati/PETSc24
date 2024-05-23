@@ -18,9 +18,9 @@ Such a discretisation can easily be constructed using NGSolve as follows: ::
       mesh = Mesh(unit_square.GenerateMesh(maxh=0.2).Distribute(COMM_WORLD))
    else:
       mesh = Mesh(ngm.Mesh.Receive(COMM_WORLD))
-   for _ in range(4):
+   for _ in range(2):
       mesh.Refine()
-   fes = H1(mesh, order=1, dirichlet="left|right|top|bottom")
+   fes = H1(mesh, order=2, dirichlet="left|right|top|bottom")
    u,v = fes.TnT()
    a = BilinearForm(grad(u)*grad(v)*dx)
    f = LinearForm(fes)
@@ -32,7 +32,7 @@ We now consturct an NGSolve preconditioner wrapping a `PETSc PC`, in particular 
 
    from ngsPETSc import pc
    from ngsolve.krylovspace import CG
-   pre = Preconditioner(a, "PETScPC", pc_type="gamg")
+   pre = Preconditioner(a, "PETScPC", pc_type="hypre")
    gfu = GridFunction(fes)
    gfu.vec.data = CG(a.mat, rhs=f.vec, pre=pre.mat, printrates=True)
    Draw(gfu)
@@ -58,5 +58,35 @@ In this case, we will use as fine space correction, the inverse of the local mat
    gfu.vec.data = CG(a.mat, rhs=f.vec, pre=mgpre, printrates=True)
    Draw(gfu)
 
+We can also use the PETSc preconditioner as an auxiliary space preconditioner.
+Let us consdier the disctinuous Galerkin discretisation of the Poisson problem. ::
 
+   fesDG = L2(mesh, order=3, dgjumps=True)
+   u,v = fesDG.TnT()
+   aDG = BilinearForm(fesDG)
+   jump_u = u-u.Other(); jump_v = v-v.Other()
+   n = specialcf.normal(2)
+   mean_dudn = 0.5*n * (grad(u)+grad(u.Other()))
+   mean_dvdn = 0.5*n * (grad(v)+grad(v.Other()))
+   alpha = 4
+   h = specialcf.mesh_size
+   aDG = BilinearForm(fesDG)
+   aDG += grad(u)*grad(v) * dx
+   aDG += alpha*3**2/h*jump_u*jump_v * dx(skeleton=True)
+   aDG += alpha*3**2/h*u*v * ds(skeleton=True)
+   aDG += (-mean_dudn*jump_v -mean_dvdn*jump_u)*dx(skeleton=True)
+   aDG += (-n*grad(u)*v-n*grad(v)*u)*ds(skeleton=True)
+   fDG = LinearForm(fesDG)
+   fDG += 1*v * dx
+   aDG.Assemble()
+   fDG.Assemble()
 
+We can now use the PETSc PC assembled for the confroming Poisson problem as an auxiliary space preconditioner for the DG discretisation. ::
+
+   from ngsPETSc import pc
+   smoother = Preconditioner(aDG, "PETScPC", pc_type="sor")
+   transform = fes.ConvertL2Operator(fesDG)
+   preDG = transform @ pre.mat @ transform.T + smoother.mat
+   gfuDG = GridFunction(fesDG)
+   gfuDG.vec.data = CG(aDG.mat, rhs=fDG.vec, pre=preDG, printrates=True)
+   Draw(gfuDG)
