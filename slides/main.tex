@@ -482,82 +482,82 @@
 			\includegraphics[scale=0.4]{../figures/stokes.png}
 		\end{figure}
 	\end{frame}
-	\begin{frame}{Navier-Stokes flow}
-		A more interesting example is the Navier-Stokes flow, which is a non-linear problem.
-		In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2(\Omega)$ such that
-		\begin{align*}
-			\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\vec{u}\cdot \nabla) \vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
-			-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
-		\end{align*}
-		for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2(\Omega)$.
-	\end{frame}
-	\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
-		$\newline$
-		We consider an augmented Lagrangian formulation for the discrete problem, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that
-		\begin{align*}
-			(\partial_t\vec{u},\vec{v})_0 + (\vec{u}\cdot \nabla \vec{u},\vec{v})_0 &+ \nu(\nabla \vec{u},\nabla \vec{v})_0 \\
-			 & - (p,\nabla \cdot \vec{v})_0 + \gamma(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
-		\end{align*}
-		and verifying the weak divergence free constraint $(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
-	\end{frame}
-	\begin{frame}
-		\frametitle{Navier-Stokes flow -- Fieldsplit Schour preconditioner}
-		$\newline$
-		$\newline$
-		The linearized version of the Navier-Stokes equations can be written in matrix form as 
-		\vspace{-0.1cm}
-		\begin{equation}
-			\begin{bmatrix}
-				A+\gamma B^TWB& B^T \\
-				B & 0
-			\end{bmatrix}
-			\begin{bmatrix}\vec{u} \\p\end{bmatrix}=\begin{bmatrix}\vec{f} \\0\end{bmatrix}
-		\end{equation}
-		We choose as preconditioner the \textbf{fieldsplit Schur preconditioner}, i.e.
-		\vspace{-0.1cm}
-		\begin{equation}
-			\begin{bmatrix}
-				I & -\hat{A}_\gamma^{-1} B^T\\
-				0 & I
-			\end{bmatrix}
-			\begin{bmatrix}
-				\hat{A}_\gamma^{-1}& 0\\
-				0 & \hat{S}_\gamma^{-1}
-			\end{bmatrix}
-			\begin{bmatrix}
-				I & 0\\
-				-BA_\gamma^{-1} & I
-			\end{bmatrix}
-		\end{equation}
-		\begin{equation}
-			A_\gamma = A+\gamma B^TWB 	\qquad  S_\gamma = -BA_\gamma^{-1}B^T.
-		\end{equation}
-	\end{frame}
-	\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
-		$\newline$
-		\begin{itemize}
-			\item [\color{oxfordblue}$\blacktriangleright$] The augmented Lagrangian term helps enforce the divergence-free constraint, and makes the scheme pressure robust.
-			\item [\color{oxfordblue}$\blacktriangleright$] We can use as preconditioner
-			\begin{equation}
-				\begin{bmatrix}
-					\hat{A}_\gamma^{-1}& 0\\
-					0 & -(\nu+\gamma)M^{-1}
-				\end{bmatrix}
-			\end{equation}
-			\item[\color{oxfordblue}$\blacktriangleright$] How do we compute $\hat{A}_\gamma^{-1}$ efficiently ? Can we adopt a multigrid approach ?
-		\end{itemize}
-	\end{frame}
-	\begin{frame}[fragile]
-		\frametitle{Robust relaxation via FEEC -- Hood--Taylor}
-		\begin{equation*}
-			\begin{tikzcd}[row sep=huge]
-			0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2(\Omega) \arrow[r,""]\arrow[d] & 0\\
-			0 \arrow[r,""] & \Big[\mathbb{P}^5(\mathcal{T}_h)\Big]^2 \arrow[r,"\curl"] & \Big[\mathbb{P}^4(\mathcal{T}_h)\Big]^2 \arrow[r,"\div"] & \mathbb{P}^3_{disc}(\mathcal{T}_h) \arrow[r,""] & 0\\
-			\end{tikzcd}
-		\vspace{-1cm}
-		\end{equation*}
-		$\color{oxfordblue}\blacktriangleright$ Thanks to the FEEC complex we can construct a robust relaxation and prolongation operator for the Hood--Taylor element.
-	\end{frame}
+	%\begin{frame}{Navier-Stokes flow}
+	%	A more interesting example is the Navier-Stokes flow, which is a non-linear problem.
+	%	In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2(\Omega)$ such that
+	%	\begin{align*}
+	%		\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\vec{u}\cdot \nabla) \vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
+	%		-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
+	%	\end{align*}
+	%	for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2(\Omega)$.
+	%\end{frame}
+	%\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
+	%	$\newline$
+	%	We consider an augmented Lagrangian formulation for the discrete problem, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that
+	%	\begin{align*}
+	%		(\partial_t\vec{u},\vec{v})_0 + (\vec{u}\cdot \nabla \vec{u},\vec{v})_0 &+ \nu(\nabla \vec{u},\nabla \vec{v})_0 \\
+	%		 & - (p,\nabla \cdot \vec{v})_0 + \gamma(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
+	%	\end{align*}
+	%	and verifying the weak divergence free constraint $(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
+	%\end{frame}
+	%\begin{frame}
+	%	\frametitle{Navier-Stokes flow -- Fieldsplit Schour preconditioner}
+	%	$\newline$
+	%	$\newline$
+	%	The linearized version of the Navier-Stokes equations can be written in matrix form as 
+	%	\vspace{-0.1cm}
+	%	\begin{equation}
+	%		\begin{bmatrix}
+	%			A+\gamma B^TWB& B^T \\
+	%			B & 0
+	%		\end{bmatrix}
+	%		\begin{bmatrix}\vec{u} \\p\end{bmatrix}=\begin{bmatrix}\vec{f} \\0\end{bmatrix}
+	%	\end{equation}
+	%	We choose as preconditioner the \textbf{fieldsplit Schur preconditioner}, i.e.
+	%	\vspace{-0.1cm}
+	%	\begin{equation}
+	%		\begin{bmatrix}
+	%			I & -\hat{A}_\gamma^{-1} B^T\\
+	%			0 & I
+	%		\end{bmatrix}
+	%		\begin{bmatrix}
+	%			\hat{A}_\gamma^{-1}& 0\\
+	%			0 & \hat{S}_\gamma^{-1}
+	%		\end{bmatrix}
+	%		\begin{bmatrix}
+	%			I & 0\\
+	%			-BA_\gamma^{-1} & I
+	%		\end{bmatrix}
+	%	\end{equation}
+	%	\begin{equation}
+	%		A_\gamma = A+\gamma B^TWB 	\qquad  S_\gamma = -BA_\gamma^{-1}B^T.
+	%	\end{equation}
+	%\end{frame}
+	%\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
+	%	$\newline$
+	%	\begin{itemize}
+	%		\item [\color{oxfordblue}$\blacktriangleright$] The augmented Lagrangian term helps enforce the divergence-free constraint, and makes the scheme pressure robust.
+	%		\item [\color{oxfordblue}$\blacktriangleright$] We can use as preconditioner
+	%		\begin{equation}
+	%			\begin{bmatrix}
+	%				\hat{A}_\gamma^{-1}& 0\\
+	%				0 & -(\nu+\gamma)M^{-1}
+	%			\end{bmatrix}
+	%		\end{equation}
+	%		\item[\color{oxfordblue}$\blacktriangleright$] How do we compute $\hat{A}_\gamma^{-1}$ efficiently ? Can we adopt a multigrid approach ?
+	%	\end{itemize}
+	%\end{frame}
+	%\begin{frame}[fragile]
+	%	\frametitle{Robust relaxation via FEEC -- Hood--Taylor}
+	%	\begin{equation*}
+	%		\begin{tikzcd}[row sep=huge]
+	%		0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2(\Omega) \arrow[r,""]\arrow[d] & 0\\
+	%		0 \arrow[r,""] & \Big[\mathbb{P}^5(\mathcal{T}_h)\Big]^2 \arrow[r,"\curl"] & \Big[\mathbb{P}^4(\mathcal{T}_h)\Big]^2 \arrow[r,"\div"] & \mathbb{P}^3_{disc}(\mathcal{T}_h) \arrow[r,""] & 0\\
+	%		\end{tikzcd}
+	%	\vspace{-1cm}
+	%	\end{equation*}
+	%	$\color{oxfordblue}\blacktriangleright$ Thanks to the FEEC complex we can construct a robust relaxation and prolongation operator for the Hood--Taylor element.
+	%\end{frame}
 	\section{\textbf{PETSc SNES}}
 	\begin{frame}[plain]
 		\frametitle{An NGsolve Example -- Naghdi Shell}
