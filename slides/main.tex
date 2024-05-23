@@ -206,7 +206,7 @@
 \lstset{style=mystyle}
 
 %% Information (author, title, etc.) %%
-\title[ngsPETSc]{ngsPETSc: NETGEN meets PETSc} % short title for footer
+\title[ngsPETSc]{ngsPETSc: NGS meets PETSc} % short title for footer
 \author%
 {%
 	\sc{P.~E.~Farrell}*, \sc{S.~Zampini$\dag$}, \underline{\sc{U.~Zerbinati}}*\\
@@ -633,7 +633,43 @@
 			\item[\color{oxfordblue}$\blacktriangleright$] High order mesh hierarchies for multigrid solvers. 
 		\end{itemize}
 	\end{frame}
+	\section{\textbf{SLEPc EPS}}
+	\begin{frame}[plain]
+		\frametitle{An NGsolve Example -- Mass conserving scheme}
+		$\newline$
+		$\newline$
+		\ngshead
+	\lstinputlisting[language=Python, firstline=36, lastline=55]{../examples/ngs/legacy/MCSEig.py}
+	\end{frame}
+	\begin{frame}[plain]
+		\frametitle{SLEPc ESP}
+		$\newline$
+		\ngshead
+		$\newline$
+		$\newline$
+		$\color{oxfordblue}\blacktriangleright$ We easily solve the eigenvalue problem associated to the Stokes formulation using ngsPETSc EigenSolver.
+		\begin{columns}[T]
+			\begin{column}{0.7\textwidth}
+				\lstinputlisting[language=Python, firstline=59, lastline=69]{../examples/ngs/legacy/MCSEig.py}
+			\end{column}
+			\begin{column}{0.3\textwidth}
+				\begin{figure}
+					\centering
+					\includegraphics[scale=0.3]{../figures/eig.png}
+					\caption*{\tiny{First eigenfunctions of the Stokes eigenvalue problem}}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
 	\section{\textbf{Conclusions}}
+	\begin{frame}
+		\frametitle{Future developments}
+		\begin{itemize}
+			\item [$\color{oxfordblue}\blacktriangleright$] We plan to extend the interface to include time-stepping capabilities from \textbf{PETSc TS}.
+			\item [$\color{oxfordblue}\blacktriangleright$] We plan to expriment with \textbf{HPDDM}.
+			\item [$\color{oxfordblue}\blacktriangleright$] We plan to use \textbf{PETSc} as linear algebra backend in \textbf{NGSolve} to ensure cross-architecture compatibility and GPU acceleration.
+		\end{itemize}
+	\end{frame}
 	\begin{frame}{NGSolve User Meeting}
 		$\newline$
 		$\newline$
