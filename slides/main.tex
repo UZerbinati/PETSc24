@@ -249,7 +249,7 @@
 		\textbf{Netgen} is an advancing front 2D/3D-mesh generator, with many interesting features.
 		\begin{itemize}
 			\item[\color{oxfordblue}$\blacktriangleright$] The geometry we intend to mesh can be described by \textbf{Constructive Solid Geometry} (CSG), in particular we can use \textbf{Opencascade} to describe our geometry.
-			\item[\color{oxfordblue}$\blacktriangleright$] It is able to construct \textbf{isoparametric meshes} reppresentation, which conform to the geometry.
+			\item[\color{oxfordblue}$\blacktriangleright$] It is able to construct \textbf{isoparametric meshes} representation, which conform to the geometry.
 			\item[\color{oxfordblue}$\blacktriangleright$] A wide variety of mesh splits are available also for curved geometries, such as Alfeld splits and Powell-Sabin splits. 
 			\item[\color{oxfordblue}$\blacktriangleright$] High flexibility in the mesh generation and mesh refinement.
 		\end{itemize}
@@ -262,7 +262,7 @@
 		$\newline$
 		\textbf{NGSolve} is a high-performance multiphysics finite element software with an extremely flexible Python interface.
 		\begin{itemize}
-			\item[\color{oxfordblue}$\blacktriangleright$] Wide range of finite elements available, including and not limited to hierarchical $H^1$ elements, $H(div)$ Raviart-Thomas and Brezzi-Douglas-Marini elements, and $H(curl)$ Nedelec elements.
+			\item[\color{oxfordblue}$\blacktriangleright$] Wide range of finite elements available, including and not limited to hierarchical $H^1$ elements, $H(div)$ Raviart-Thomas and Brezzi-Douglas-Marini elements, and $H(curl)$ Nédélec elements.
 			\item[\color{oxfordblue}$\blacktriangleright$] The variational formulation can be easily defined using an analogous language to the unified form language (UFL).
 			\item[\color{oxfordblue}$\blacktriangleright$] Many extensions are available, including \textbf{ngsxfem} for unfitted finite element discretizations, \textbf{ngsTreffetz} for Treffetz methods and \textbf{ngsTents} for spacetime tents schemes.
 		\end{itemize}
@@ -422,7 +422,7 @@
 		$\newline$
 		$\newline$
 		\ngshead
-		\lstinputlisting[language=Python, firstline=79, lastline=98]{../examples/ngs/precond.py.rst}
+		\lstinputlisting[language=Python, firstline=79, lastline=95]{../examples/ngs/precond.py.rst}
 	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{PETSc PC -- Auxiliary Space Preconditioner}
@@ -663,11 +663,23 @@
 	\end{frame}
 	\section{\textbf{Conclusions}}
 	\begin{frame}
+		\frametitle{What is new ?}
+		$\newline$
+		\begin{itemize}
+			\item [$\color{oxfordblue}\blacktriangleright$] We exposed PETSc solver in NGSolve. 
+			\item [$\color{oxfordblue}\blacktriangleright$] PETSc preconditioners can be used as building blocks in NGSolve.
+			\item [$\color{oxfordblue}\blacktriangleright$] Thanks to \textbf{PETSc SNES} we have a robust non-linear solver in NGSolve.
+			\item [$\color{oxfordblue}\blacktriangleright$] Thanks to \textbf{SLEPc EPS} we have a robust eigenvalue solver in NGSolve.
+		\end{itemize}
+	\end{frame}
+	\begin{frame}
 		\frametitle{Future developments}
+		$\newline$
 		\begin{itemize}
 			\item [$\color{oxfordblue}\blacktriangleright$] We plan to extend the interface to include time-stepping capabilities from \textbf{PETSc TS}.
 			\item [$\color{oxfordblue}\blacktriangleright$] We plan to expriment with \textbf{HPDDM}.
 			\item [$\color{oxfordblue}\blacktriangleright$] We plan to use \textbf{PETSc} as linear algebra backend in \textbf{NGSolve} to ensure cross-architecture compatibility and GPU acceleration.
+			\item [$\color{oxfordblue}\blacktriangleright$] We plan to wrap also \textbf{SLEPc PEP} to solve polynomial eigenvalue problems.
 		\end{itemize}
 	\end{frame}
 	\begin{frame}{NGSolve User Meeting}
@@ -680,7 +692,7 @@
 		\end{figure}
 		\vspace{-0.6cm}
 		\begin{center}
-			\textbf{Usally there are beers !}
+			\textbf{Usually there are beers !}
 		\end{center}
 	\end{frame}
 \end{document}
